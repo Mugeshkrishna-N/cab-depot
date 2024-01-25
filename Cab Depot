@@ -1,0 +1,251 @@
+Cab Depot Management System
+
+import java.util.*;
+class Cab 
+{
+    int id;
+    String crtype;
+    String rgno;
+    boolean sts;
+}
+class cabdepot extends Cab{
+    int f;
+    double amt;
+    void bookeddisplay(Cab c)
+    {
+        if(!(c.sts))
+        {
+            System.out.printf("Cab ID :%d\n",c.id);
+            System.out.printf("Cab Status: Cab Booked\n");
+        }
+    }
+    double getrateperday(String ct)
+    {
+        if(ct.equals("Micro"))
+        {
+            double q=2525.0;
+            double w= q/100 * 10;
+            return q+w;
+        }
+        else if(ct.equals("Mini"))
+        {
+            double q=3110.0;
+            double w= q/100 * 10;
+            return q+w;
+        }
+         else if(ct.equals("Sedan"))
+        {
+            double q=3500.0;
+            double w= q/100 * 10;
+            return q+w;
+        }
+        return 0;
+        
+        
+    }
+    void display()
+    {
+        System.out.printf("FARE DETAILS\n");
+        System.out.printf("***********************************************\n");
+        System.out.printf("Micro Car Rent Rs.2525.00 + 10 percent of Tax\n");
+        System.out.printf("Mini Car Rent Rs.3110.00 + 10 percent of Tax\n");
+        System.out.printf("Sedan Car Rent Rs.3500.00 + 10 percent of Tax\n");
+    }
+   
+    double rent(String ctype,int z)
+    {
+       
+       
+        
+        double d = getrateperday(ctype);
+        float sp= (float)z;
+        amt=d*sp;
+        System.out.printf("Rent is %.2f for the given number of days\n",amt);
+        
+        
+        return amt;
+    }
+}
+class bookcab extends cabdepot
+{
+    double amts;
+    String src;
+    String cxt;
+    int dx;
+    String dst;
+    void cardisplay()
+    {
+        System.out.println("TRIP DETAILS \n");
+        System.out.printf("Origin Place : %s\n",src);
+        System.out.printf("Destination Place : %s\n",dst);
+        System.out.printf("Car Type : %s\n",cxt);
+        System.out.printf("No of days : %d\n",dx);
+        System.out.printf("Total Rent : %.2f\n",amts);
+        System.out.printf("********CAB BOOKED SUCESSFULLY , WISHING YOU A SAFEST RIDE********* \n");
+        
+        
+    }
+    void validrouteday(String a,int x)
+    {
+        if(x>=1)
+        {
+            amts=rent(a,x);
+        }
+        else{
+            System.out.printf("Invalid Days\n");
+        }
+        cardisplay();
+    }
+    void validroute(String s,String d)
+    {
+        Scanner sc=new Scanner(System.in);
+        List<String> rts = new ArrayList<>();
+        rts.add("CBE");
+        rts.add("MAD");
+        rts.add("TEN");
+        rts.add("KDL");
+        rts.add("OTY");
+        if(rts.contains(s)&&rts.contains(d))
+        {
+            src=s;
+            dst=d;
+            System.out.println("Route is arranged , proceeding for cab booking \n");
+            System.out.println("Once again Enter the cab type needed");
+            String zs=sc.next();
+            cxt=zs;
+            System.out.printf("Enter the no of days cab needed\n");
+            int qw=sc.nextInt();
+            dx=qw;
+            validrouteday(zs,qw);
+        }
+        else{
+            System.out.println("For this source and destination are not available\n");
+        }
+    }
+}
+class Main 
+{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        Cab[] c = new Cab[3];
+        int i=0;
+        String ctype;
+        String rno;
+        boolean x;
+        String input;
+        int idz;
+        for(i=0;i<3;i++)
+        {
+            c[i]=new Cab();
+            System.out.println("Enter Cab id ");
+            idz=sc.nextInt();
+            if(idz>0)
+            {
+                c[i].id=idz;
+            }
+            else{
+                System.out.println("Invalid ID ");
+            }
+            System.out.println("Enter Cab Type ");
+            ctype=sc.next();
+            if(ctype.matches("^[a-zA-Z0-9]+$"))
+            {
+                c[i].crtype=ctype;
+            }
+            else{
+                System.out.println("Invalid Cab Type");
+            }
+            System.out.println("Enter Car Reg Number");
+            rno=sc.next();
+            if(rno.matches("^[a-zA-Z0-9]+$"))
+            {
+                c[i].rgno=rno;
+            }
+            else{
+                System.out.println("Invalid Car Register Number ");
+            }
+            System.out.println("Enter car status ");
+            input=sc.next();
+             if (input.equalsIgnoreCase("true")) 
+             {
+                    x = true;
+                    c[i].sts=x;
+             } 
+             else if (input.equalsIgnoreCase("false")) 
+             {
+                x = false;
+                c[i].sts=x;
+             } 
+             else {
+                System.out.println("Invalid input. Please enter 'true' or 'false'.");
+            }
+        }
+        System.out.println("CAB DETAILS ");
+        for(i=0;i<3;i++)
+        {
+            System.out.printf("Cab %d\n",i+1);
+            System.out.printf("Cab ID : %d\n",c[i].id);
+            System.out.printf("Cab Type : %s\n",c[i].crtype);
+            System.out.printf("Cab Reg No : %s\n",c[i].rgno);
+            if(c[i].sts)
+            {
+                System.out.println("Cab Status : Available");
+            }
+            else{
+                System.out.println("Cab Status : Not Available");
+            }
+        }
+        int w=1;
+        int ch;
+        while(w!=4)
+        {
+        System.out.println("To Know about the booked cabs - Enter 1\n ");
+        System.out.println("To Know about the rent details - Enter 2\n ");
+        System.out.println("To Book a cab - Enter 3\n");
+        System.out.println("To close - Enter 4\n");
+        ch=sc.nextInt();
+        if(ch==1)
+        {
+            cabdepot[] cd=new cabdepot[3];
+            for(i=0;i<3;i++)
+            {
+                cd[i]=new cabdepot();
+                cd[i].bookeddisplay(c[i]);
+            }
+        }
+        else if(ch==2)
+        {
+            cabdepot cd=new cabdepot();
+            cd.display();
+            System.out.printf("Enter the car type - Micro , Mini , Sedan\n");
+            String cr=sc.next();
+            System.out.printf("Enter no of days \n");
+            int dy=sc.nextInt();
+            cd.rent(cr,dy);
+        }
+        else if(ch==3)
+        {
+            bookcab b= new bookcab();
+            System.out.printf("Our Cab Services are only for the below mentioned city , use the city code for booking\n Madras-MAD\n Coimbatore-CBE\n Tenkasi - TEN\n Kadalore-KDL\n Ooty-OTY\n");
+            System.out.println("Enter Origin Place\n");
+            String a=sc.next();
+            System.out.println("Enter Destination Place\n");
+            String nm = sc.next();
+            System.out.println("Enter Cab Type needed\n");
+            String ctug=sc.next();
+            for(i=0;i<3;i++)
+            {
+            if(ctug.equals(c[i].crtype) && c[i].sts)
+            {
+                b.validroute(a,nm);
+                c[i].sts=false;
+            }else{
+                System.out.println("Car Not Available\n");
+            }
+            }
+        }
+        w=ch;
+        }
+    }
+}
